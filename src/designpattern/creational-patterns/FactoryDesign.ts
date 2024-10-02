@@ -1,3 +1,10 @@
+import * as readline from "readline/promises";
+
+const read = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
 interface Shape {
   calculateArea: () => void;
 }
@@ -41,24 +48,46 @@ class Circle implements Shape {
   }
 }
 
-// factory to decide which type of obj create by it type
+// factory to decide which type of obj create by its type
 export default class FactoryDesign {
-  public static getShape(shapeType: String): Shape {
+  public static async getShape(): Promise<Shape> {
+    const shapeType = await read.question("Enter shape type: ");
+    let shape: Shape;
+
     switch (shapeType) {
-      case "RECTANGLE":
-        return new Rectangle(2, 4);
+      case "RECTANGLE": {
+        const height = await read.question("Enter height of the rectangle: ");
+        const width = await read.question("Enter width of the rectangle: ");
+        shape = new Rectangle(Number(height), Number(width));
+        break;
+      }
 
-      case "SQUARE":
-        return new Square(2);
+      case "SQUARE": {
+        const side = await read.question("Enter side of the square: ");
+        shape = new Square(Number(side));
+        break;
+      }
 
-      case "CIRCLE":
-        return new Circle(7);
+      case "CIRCLE": {
+        const radius = await read.question("Enter radius of the circle: ");
+        shape = new Circle(Number(radius));
+        break;
+      }
 
-      default:
-        return new Rectangle(2, 4);
+      default: {
+        console.log("Invalid shape type, defaulting to rectangle.");
+        const height = await read.question("Enter height of the rectangle: ");
+        const width = await read.question("Enter width of the rectangle: ");
+        shape = new Rectangle(Number(height), Number(width));
+        break;
+      }
     }
+
+    read.close(); // Ensure this is always called
+    return shape;
   }
 }
 
-const shapeType = FactoryDesign.getShape("RECTANGLE");
-shapeType.calculateArea();
+FactoryDesign.getShape().then((shapeType) => {
+  shapeType.calculateArea();
+});

@@ -2,8 +2,5 @@
 dist/
 node_modules/
 
-# mislinus
-*.java
-
 # IDE - vscode
 .vscode/
