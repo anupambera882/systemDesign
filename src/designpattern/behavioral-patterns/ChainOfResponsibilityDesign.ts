@@ -4,11 +4,8 @@ abstract class LogProcessor {
   public static INFO = 1;
   public static DEBUG = 2;
   public static ERROR = 3;
-  private nextLoggerProcessor: LogProcessor | null;
 
-  public constructor(loggerProcessor: LogProcessor | null) {
-    this.nextLoggerProcessor = loggerProcessor;
-  }
+  public constructor(private nextLoggerProcessor: LogProcessor | null) {}
 
   public log(logLevel: number, message: string): void {
     if (this.nextLoggerProcessor != null) {

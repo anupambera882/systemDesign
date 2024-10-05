@@ -4,10 +4,7 @@ interface Image {
 }
 
 class RealImage implements Image {
-  private filename: string;
-
-  public constructor(filename: string) {
-    this.filename = filename;
+  public constructor(private filename: string) {
     this.loadImageFromDisk();
   }
 
@@ -23,11 +20,8 @@ class RealImage implements Image {
 // Proxy
 class ProxyImage implements Image {
   private realImage: RealImage | null = null;
-  private filename: string;
 
-  public constructor(filename: string) {
-    this.filename = filename;
-  }
+  public constructor(private filename: string) {}
 
   public display() {
     if (this.realImage == null) {

@@ -16,13 +16,7 @@ class Marker {
 }
 
 export class CreateInvoice {
-  private marker: Marker;
-  private quantity: number;
-
-  public constructor(marker: Marker, quantity: number) {
-    this.marker = marker;
-    this.quantity = quantity;
-  }
+  public constructor(private marker: Marker, private quantity: number) {}
 
   public calculate(): number {
     const price = this.marker.price * this.quantity;
@@ -31,19 +25,17 @@ export class CreateInvoice {
 
   public createInvoice() {
     // create invoice and return
-    return "invoice created"
+    return "invoice created";
   }
 }
 
 export class SaveInvoice {
-  private CreateInvoice: CreateInvoice;
 
-  public constructor(CreateInvoice: CreateInvoice) {
-    this.CreateInvoice = CreateInvoice;
+  public constructor(private createInvoice: CreateInvoice) {
   }
 
   public saveInvoice(): void {
-    this.CreateInvoice.createInvoice();
+    this.createInvoice.createInvoice();
     // save this invoice
   }
 }

@@ -21,11 +21,7 @@ class WalkingTravelStrategy implements TravelStrategy {
 }
 
 class TravelPlanner {
-  private travelStrategy: TravelStrategy;
-
-  public constructor(travelStrategy: TravelStrategy) {
-    this.travelStrategy = travelStrategy;
-  }
+  public constructor(private travelStrategy: TravelStrategy) {}
 
   public setTravelStrategy(travelStrategy: TravelStrategy): void {
     this.travelStrategy = travelStrategy;

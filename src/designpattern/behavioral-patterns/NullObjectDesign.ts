@@ -34,11 +34,7 @@ class NullCar implements Car {
 }
 
 class CarRentalService {
-  private car: Car;
-
-  public constructor(car: Car) {
-    this.car = car;
-  }
+  public constructor(private car: Car) {}
 
   public rentCar() {
     this.car.drive();
@@ -62,4 +58,4 @@ export default class NullObjectDesign {
   }
 }
 
-NullObjectDesign.main()
+NullObjectDesign.main();

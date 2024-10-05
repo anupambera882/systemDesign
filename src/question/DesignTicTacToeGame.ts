@@ -89,10 +89,6 @@ class Player {
     this.playingPiece = playingPiece;
   }
 
-  public getName(): string {
-    return this.name;
-  }
-
   public getPlayingPiece(): PlayingPiece {
     return this.playingPiece;
   }
@@ -103,11 +99,10 @@ class TicTacToeGame {
   private gameBoard: Board;
 
   public constructor() {
-    this.players = [];
     const player1 = new Player("Player1", new PlayingPieceX());
     const player2 = new Player("Player2", new PlayingPieceO());
 
-    this.players.push(player1, player2);
+    this.players = [player1, player2];
     this.gameBoard = new Board(3);
   }
 
@@ -130,7 +125,7 @@ class TicTacToeGame {
         let inputRow: number, inputColumn: number;
         while (!validInput) {
           const s = await read.question(
-            `Player ${playerTurn.getName()}, enter row,column (0-2): `
+            `Player ${playerTurn.name}, enter row,column (0,2): `
           );
           const values = s.split(",");
           inputRow = Number(values[0]);
@@ -140,9 +135,9 @@ class TicTacToeGame {
             isNaN(inputRow) ||
             isNaN(inputColumn) ||
             inputRow < 0 ||
-            inputRow >= 3 ||
+            inputRow >= this.gameBoard.size ||
             inputColumn < 0 ||
-            inputColumn >= 3
+            inputColumn >= this.gameBoard.size
           ) {
             console.log("Invalid input. Please enter valid row and column.");
           } else if (
@@ -168,8 +163,8 @@ class TicTacToeGame {
           )
         ) {
           this.gameBoard.printBoard();
-          console.log(`Player ${playerTurn.getName()} wins!`);
-          return playerTurn.getName();
+          console.log(`Player ${playerTurn.name} wins!`);
+          return playerTurn.name;
         }
       }
 
@@ -184,35 +179,56 @@ class TicTacToeGame {
     column: number,
     pieceType: PieceType
   ): boolean {
-    return (
-      this.checkRow(row, pieceType) ||
-      this.checkColumn(column, pieceType) ||
-      this.checkDiagonals(pieceType)
-    );
-  }
+    let rowMatch = true;
+    let columnMatch = true;
+    let diagonalMatch = true;
+    let antiDiagonalMatch = true;
 
-  private checkRow(row: number, pieceType: PieceType): boolean {
-    return this.gameBoard.board[row].every(
-      (piece) => piece != null && piece.pieceType === pieceType
-    );
-  }
+    //need to check in row
+    for (let i = 0; i < this.gameBoard.size; i++) {
+      if (
+        this.gameBoard.board[row][i] == null ||
+        this.gameBoard.board[row][i]?.pieceType != pieceType
+      ) {
+        rowMatch = false;
+      }
+    }
 
-  private checkColumn(column: number, pieceType: PieceType): boolean {
-    return this.gameBoard.board.every(
-      (row) => row[column] != null && row[column]!.pieceType === pieceType
-    );
-  }
+    //need to check in column
+    for (let i = 0; i < this.gameBoard.size; i++) {
+      if (
+        this.gameBoard.board[i][column] == null ||
+        this.gameBoard.board[i][column]?.pieceType != pieceType
+      ) {
+        columnMatch = false;
+      }
+    }
 
-  private checkDiagonals(pieceType: PieceType): boolean {
-    const topLeftBottomRight = this.gameBoard.board.every(
-      (row, i) => row[i] != null && row[i]!.pieceType === pieceType
-    );
-    const topRightBottomLeft = this.gameBoard.board.every(
-      (row, i) =>
-        row[this.gameBoard.size - i - 1] != null &&
-        row[this.gameBoard.size - i - 1]!.pieceType === pieceType
-    );
-    return topLeftBottomRight || topRightBottomLeft;
+    //need to check diagonals
+    for (let i = 0, j = 0; i < this.gameBoard.size; i++, j++) {
+      if (
+        this.gameBoard.board[i][j] == null ||
+        this.gameBoard.board[i][j]?.pieceType != pieceType
+      ) {
+        diagonalMatch = false;
+      }
+    }
+
+    //need to check anti-diagonals
+    for (
+      let i = 0, j = this.gameBoard.size - 1;
+      i < this.gameBoard.size;
+      i++, j--
+    ) {
+      if (
+        this.gameBoard.board[i][j] == null ||
+        this.gameBoard.board[i][j]?.pieceType != pieceType
+      ) {
+        antiDiagonalMatch = false;
+      }
+    }
+
+    return rowMatch || columnMatch || diagonalMatch || antiDiagonalMatch;
   }
 }
 

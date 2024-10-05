@@ -10,13 +10,7 @@ interface Shape {
 }
 
 class Rectangle implements Shape {
-  private width: number;
-  private height: number;
-
-  public constructor(height: number, width: number) {
-    this.height = height;
-    this.width = width;
-  }
+  public constructor(private height: number, private width: number) {}
 
   public calculateArea(): void {
     console.log("Area of Rectangle: " + this.width * this.height);
@@ -24,11 +18,7 @@ class Rectangle implements Shape {
 }
 
 class Square implements Shape {
-  private side: number;
-
-  public constructor(side: number) {
-    this.side = side;
-  }
+  public constructor(private side: number) {}
 
   public calculateArea(): void {
     console.log("Area of Square: " + this.side * this.side);
@@ -36,12 +26,9 @@ class Square implements Shape {
 }
 
 class Circle implements Shape {
-  private radius: number;
   private static PI = 3.14;
 
-  public constructor(radius: number) {
-    this.radius = radius;
-  }
+  public constructor(private radius: number) {}
 
   public calculateArea(): void {
     console.log("Area of Circle: " + Circle.PI * this.radius * this.radius);

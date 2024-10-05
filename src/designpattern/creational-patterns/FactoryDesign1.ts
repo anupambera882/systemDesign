@@ -8,12 +8,9 @@ interface Channel {
 
 // ConcreteSubject class
 class YouTubeChannel implements Channel {
-  private channelName: String;
   private subscribers: Subscriber[] = [];
 
-  public constructor(channelName: String) {
-    this.channelName = channelName;
-  }
+  public constructor(private channelName: String) {}
 
   public subscribe(subscriber: Subscriber): void {
     this.subscribers.push(subscriber);
@@ -54,11 +51,7 @@ interface Subscriber {
 
 // ConcreteObserver class
 class YouTubeSubscriber implements Subscriber {
-  private name: String;
-
-  public constructor(name: String) {
-    this.name = name;
-  }
+  public constructor(private name: String) {}
 
   public getName(): String {
     return this.name;

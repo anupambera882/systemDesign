@@ -4,8 +4,8 @@ interface Builder {
 }
 
 class Car {
-  private seats: number = 0;
-  private engine: string = "";
+  private seats = 0;
+  private engine = "";
 
   public setSeats(seats: number): void {
     this.seats = seats;
@@ -22,8 +22,8 @@ class Car {
 }
 
 class Motorcycle {
-  private seats: number = 0;
-  private engine: string = "";
+  private seats = 0;
+  private engine = "";
 
   public setSeats(seats: number): void {
     if (seats > 2) {
@@ -43,11 +43,7 @@ class Motorcycle {
 }
 
 class CarBuilder implements Builder {
-  private car: Car;
-
-  constructor() {
-    this.car = new Car();
-  }
+  constructor(private car = new Car()) {}
 
   public setSeats(seats: number): this {
     this.car.setSeats(seats);
@@ -65,11 +61,7 @@ class CarBuilder implements Builder {
 }
 
 class MotorcycleBuilder implements Builder {
-  private motorcycle: Motorcycle;
-
-  constructor() {
-    this.motorcycle = new Motorcycle();
-  }
+  constructor(private motorcycle = new Motorcycle()) {}
 
   public setSeats(seats: number): this {
     this.motorcycle.setSeats(seats);
